@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cyber Quiz</title>
+    <title>Cyber Awareness Quiz - FortiBot</title>
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -14,36 +14,65 @@
         <button onclick="answer('yes')">Yes</button>
         <button onclick="answer('no')">No</button>
     </div>
-    <p id="result"></p>
+
+    <div id="feedback" style="display:none;">
+        <h2 id="feedback-text"></h2>
+        <button onclick="nextQuestion()" class="btn">Next</button>
+    </div>
+
+    <div id="completion" style="display:none;">
+        <h2>🎉 Great Job! You've completed the Cyber Quiz!</h2>
+        <p id="result"></p>
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
 </div>
 
 <script>
+// Quiz data: question, correct answer, feedback if wrong
 const questions = [
-    {q: "Should you reuse the same password on multiple sites?", a: "no"},
-    {q: "Is enabling 2FA (Two-Factor Authentication) recommended?", a: "yes"},
-    {q: "Is it safe to click links from unknown emails?", a: "no"},
+    {q: "Should you reuse the same password on multiple sites?", a: "no", feedback: "Never reuse passwords. Each account should have a unique password."},
+    {q: "Is enabling 2FA (Two-Factor Authentication) recommended?", a: "yes", feedback: "Two-Factor Authentication adds an extra layer of protection to your account."},
+    {q: "Is it safe to click links from unknown emails?", a: "no", feedback: "Unknown links can lead to phishing sites. Always verify the sender."},
+    {q: "Is updating your software regularly important?", a: "yes", feedback: "Software updates patch security vulnerabilities. Always keep them updated."},
+    {q: "Is public Wi-Fi 100% safe without VPN?", a: "no", feedback: "Public Wi-Fi is risky. Use a VPN to protect your data."}
 ];
 
+// Randomize question order
+let shuffledQuestions = questions.sort(() => Math.random() - 0.5);
 let current = 0;
 let score = 0;
 
 function showQuestion() {
-    if(current < questions.length) {
-        document.getElementById('question').textContent = questions[current].q;
+    if(current < shuffledQuestions.length) {
+        document.getElementById('question').textContent = shuffledQuestions[current].q;
+        document.getElementById('quiz').style.display = 'block';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('completion').style.display = 'none';
     } else {
         document.getElementById('quiz').style.display = 'none';
-        document.getElementById('result').textContent = `Quiz finished! Your score: ${score}/${questions.length}`;
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('completion').style.display = 'block';
+        document.getElementById('result').textContent = `Your score: ${score}/${shuffledQuestions.length}`;
     }
 }
 
 function answer(ans) {
-    if(ans === questions[current].a) {
+    if(ans === shuffledQuestions[current].a) {
         score++;
+        nextQuestion();
+    } else {
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('feedback').style.display = 'block';
+        document.getElementById('feedback-text').textContent = `Wrong Answer: ${shuffledQuestions[current].feedback}`;
     }
+}
+
+function nextQuestion() {
     current++;
     showQuestion();
 }
 
+// Start Quiz
 showQuestion();
 </script>
 
