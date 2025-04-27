@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cyber Quiz</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<div class="hero">
+    <h1>Cyber Awareness Quiz</h1>
+    <div id="quiz">
+        <p id="question"></p>
+        <button onclick="answer('yes')">Yes</button>
+        <button onclick="answer('no')">No</button>
+    </div>
+    <p id="result"></p>
+</div>
+
+<script>
+const questions = [
+    {q: "Should you reuse the same password on multiple sites?", a: "no"},
+    {q: "Is enabling 2FA (Two-Factor Authentication) recommended?", a: "yes"},
+    {q: "Is it safe to click links from unknown emails?", a: "no"},
+];
+
+let current = 0;
+let score = 0;
+
+function showQuestion() {
+    if(current < questions.length) {
+        document.getElementById('question').textContent = questions[current].q;
+    } else {
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('result').textContent = `Quiz finished! Your score: ${score}/${questions.length}`;
+    }
+}
+
+function answer(ans) {
+    if(ans === questions[current].a) {
+        score++;
+    }
+    current++;
+    showQuestion();
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
