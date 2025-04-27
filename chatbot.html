@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ask FortiBot</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<div class="hero">
+    <h1>Chat with FortiBot</h1>
+    <div id="chat-window">
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Ask FortiBot something..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+function sendMessage() {
+    const userInput = document.getElementById('user-input').value;
+    const messages = document.getElementById('messages');
+
+    const userMessage = document.createElement('div');
+    userMessage.textContent = "You: " + userInput;
+    messages.appendChild(userMessage);
+
+    // Dummy FortiBot reply
+    const botReply = document.createElement('div');
+    if(userInput.toLowerCase().includes("phishing")) {
+        botReply.textContent = "FortiBot: Phishing is a scam tricking you into giving personal information. Always double-check email links.";
+    } else {
+        botReply.textContent = "FortiBot: I am learning! Stay safe and always use two-factor authentication.";
+    }
+    messages.appendChild(botReply);
+
+    document.getElementById('user-input').value = "";
+}
+</script>
+
+</body>
+</html>
